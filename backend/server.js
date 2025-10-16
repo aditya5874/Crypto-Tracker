@@ -9,8 +9,15 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
+
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["https://crypto-tracker-frontend-pr1d.onrender.com"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 // Routes
 app.use("/api/users", userRoutes);
