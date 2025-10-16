@@ -1,0 +1,247 @@
+/* Navbar base */
+.navbar {
+  width: 100%;
+  background-color: #09005c; /* same as before — deep purple/navy */
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.04);
+}
+
+.nav-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.logo {
+  width: 220px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Center navigation links */
+.nav-links {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center; /*  centers the Home / Top10 / Trending */
+  gap: 28px;
+}
+
+.nav-links ul {
+  display: flex;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav-links ul li {
+  display: inline-block;
+}
+
+/* Nav links base */
+.nav-links a {
+  color: #d8d2ff;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+.nav-links a:hover {
+  color: #fff;
+  background: rgba(124, 58, 237, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Active tab highlight */
+.nav-links a.active {
+  color: #fff;
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  box-shadow: 0 0 12px rgba(124, 58, 237, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Currency + buttons area */
+.nav-actions {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+.nav-actions select {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.nav-actions select option {
+  background-color: #09005c; /* dropdown background */
+  color: #ffffff; /* white text */
+  font-weight: 500;
+}
+/* Buttons */
+.btn {
+  padding: 8px 14px;
+  border-radius: 18px;
+  border: none;
+  cursor: pointer;
+  background: #fff;
+  color: #2a2540;
+  font-weight: 600;
+}
+
+.btn-logout {
+  background: #d9534f;
+  color: #fff;
+}
+.greeting {
+  color: #ddd;
+  font-weight: 500;
+  padding: 6px 8px;
+}
+
+/* Hamburger menu (mobile) */
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 6px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.menu-toggle span {
+  display: block;
+  height: 2.5px;
+  background: #cfc9ff;
+  border-radius: 3px;
+  transition: transform 0.25s, opacity 0.25s;
+}
+.menu-toggle.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Responsive adjustments */
+/* Hide center nav links + currency dropdown on small screens */
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* Hide center links and currency on small screens */
+  .nav-links {
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background-color: #09005c; /* keep same color */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 0;
+    transform-origin: top;
+    transition: max-height 0.35s ease, opacity 0.25s ease;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  /* When menu is open */
+  .nav-links.open {
+    max-height: 400px;
+    opacity: 1;
+  }
+
+  /* Make menu items stack vertically */
+  .nav-links ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide nav-links + select when not open */
+  .nav-links ul li {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Hide currency dropdown on mobile */
+  .nav-actions select {
+    display: none;
+  }
+
+  .nav-actions {
+    gap: 10px;
+  }
+
+  .logo {
+    width: 160px;
+  }
+}
+/* ---------- Tiny screens: move actions to next line but keep buttons inline ---------- */
+@media (max-width: 400px) {
+  /* allow the top row to wrap so nav-actions can drop to next line */
+  .nav-inner {
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* keep hamburger visible */
+  .menu-toggle {
+    display: flex;
+  }
+
+  /* place nav-actions on its own row, centered, but keep buttons side-by-side */
+  .nav-actions {
+    order: 3; /* ensure actions appear after logo/menu row */
+    width: 100%;
+    display: flex !important; /* force row layout */
+    flex-direction: row !important; /* keep buttons side-by-side */
+    justify-content: center; /* center the buttons on the new row */
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  /* ensure each button keeps its natural width (not full width) */
+  .nav-actions .btn {
+    width: auto !important;
+    min-width: 110px;
+  }
+
+  /* make NavLinks (if visible) occupy full width but appear above actions */
+  .nav-links {
+    order: 2;
+    width: 100%;
+  }
+
+  /* small tweak for logo size on tiny screens */
+  .logo {
+    width: 140px;
+  }
+}
