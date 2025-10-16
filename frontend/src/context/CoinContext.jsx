@@ -8,12 +8,10 @@ const CoinContextProvider = (props) => {
     symbol: "$",
   });
   const fetchAllCoin = async () => {
-    const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.name}`;
-    const options = {
-      method: "GET",
-      headers: { "x-cg-demo-api-key": "CG-ochYv1p9sUu356LRxEg9fGhv" },
-      body: undefined,
-    };
+    const url = `${import.meta.env.VITE_BACKEND_URL}/api/coins?vs_currency=${
+      currency.name
+    }`;
+    const options = { method: "GET" };
 
     try {
       const response = await fetch(url, options);

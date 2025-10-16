@@ -10,6 +10,9 @@ const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   const [watchlist, setWatchlist] = useState([]);
 
+  //  Use backend URL from .env
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
   // Save user and token to localStorage
   useEffect(() => {
     if (user && token) {
@@ -24,7 +27,7 @@ const AuthProvider = ({ children }) => {
   // Signup
   const signupUser = async (name, email, password) => {
     try {
-      const res = await fetch("/api/users/register", {
+      const res = await fetch(`${BASE_URL}/api/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -43,10 +46,10 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Login
+  //  Login
   const loginUser = async (email, password) => {
     try {
-      const res = await fetch("/api/users/login", {
+      const res = await fetch(`${BASE_URL}/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -65,12 +68,12 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Fetch watchlist when token changes
+  //  Fetch watchlist when token changes
   useEffect(() => {
     const fetchWatchlist = async () => {
       if (!token) return;
       try {
-        const { data } = await axios.get("/api/users/watchlist", {
+        const { data } = await axios.get(`${BASE_URL}/api/users/watchlist`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setWatchlist(data.watchlist || []);
@@ -81,43 +84,39 @@ const AuthProvider = ({ children }) => {
     fetchWatchlist();
   }, [token]);
 
-  // Add coin to watchlist
+  //  Add coin to watchlist
   const addToWatchlist = async (coinId) => {
     if (!token) return;
     try {
-      // Optimistically update watchlist
       setWatchlist((prev) => [...prev, coinId]);
       await axios.post(
-        "/api/users/watchlist/add",
+        `${BASE_URL}/api/users/watchlist/add`,
         { coinId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
     } catch (err) {
       console.error("Failed to add to watchlist:", err);
-      // Revert on error
       setWatchlist((prev) => prev.filter((id) => id !== coinId));
     }
   };
 
-  // Remove coin from watchlist
+  //  Remove coin from watchlist
   const removeFromWatchlist = async (coinId) => {
     if (!token) return;
     try {
-      // Optimistically update watchlist
       setWatchlist((prev) => prev.filter((id) => id !== coinId));
       await axios.post(
-        "/api/users/watchlist/remove",
+        `${BASE_URL}/api/users/watchlist/remove`,
         { coinId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
     } catch (err) {
       console.error("Failed to remove from watchlist:", err);
-      // Revert on error
       setWatchlist((prev) => [...prev, coinId]);
     }
   };
 
-  // Logout
+  //  Logout
   const logoutUser = () => {
     setUser(null);
     setToken(null);
