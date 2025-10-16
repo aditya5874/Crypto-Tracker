@@ -8,7 +8,7 @@ import { Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer/Footer";
 import Login from "./pages/Auth/Login";
 import Signup from "./pages/Auth/Signup";
-import Watchlist from "./pages/Watchlist/watchlist";
+import Watchlist from "./pages/Watchlist/Watchlist";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
